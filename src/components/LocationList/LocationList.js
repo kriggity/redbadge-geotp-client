@@ -100,7 +100,6 @@ export default class LocationList extends React.Component {
                 Loading...
             </div> : 
             <div>
-            This is LocationList
             <List>
                 <PlacesMapper nearbyTPSellers={this.state.nearbyTPSellers} />
             </List>

@@ -18,17 +18,7 @@ export default class App extends React.Component {
 
     return (
       <div>
-        <h3>
-          App works
-        </h3>
-
-        <h2>
-          {props.coords.latitude}
-        </h2>
-        {/* <LocationList props = {props} /> */}
         <LocationList {...props} />
-        {/* <Fetch {...props} /> */}
-
       </div>
     )
     }   
