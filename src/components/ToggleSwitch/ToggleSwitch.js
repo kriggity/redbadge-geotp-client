@@ -26,37 +26,25 @@ export default class ToggleSwitch extends Component {
           // 'Authorization': props.token
       })
   }).then((res) => {
-      // eventsNotReadyToRender = false;
       return res.json(); 
   })
-  // .then((logData) => setJarEvents(logData))
   .then((logData) => {
     console.log("the fetch returned", logData);
     if (logData === null) { 
-      // this.setState({ button: '<button>Hello</button>' })
       this.setState({ placeInDB: false}) 
     } else {
         this.setState({ placeInDB: true});
         this.setState({votecount: logData.votecount})
-        // logData.status ? this.setState({checked: true}) : this.setState({checked: false}
         if(logData.status) {
           this.setState({checked: true}) 
         } else {
           this.setState({checked: false})
         }
-        // this.setState({button: <Switch onChange={this.handleChange checked={this.state.checked} /> })
       }
   })
   .catch(err => console.log(err))
   
   }
-
-
-  // determineButton() {
-  //   let button;
-  //   this.state.placeInDB ? 
-  //   this.setState({button: '<Switch onChange={this.handleChange checked={this.state.checked} />' }) : this.setState({ button: '<button>Hello</button>' })
-  // }
 
   handleChange(checked) {
     console.log("in handleChange, id = ", this.state.id)
@@ -76,13 +64,7 @@ export default class ToggleSwitch extends Component {
       <div>
 
         <label>
-          {/* <span>Switch with default style</span> */}
           {console.log("placeInDB is : ", this.state.placeInDB)}
-          {/* <ButtonOrSwitch placeInDB={this.state.placeInDB} /> */}
-          {/* <Switch onChange={this.handleChange} checked={this.state.checked} /> */}
-          {/* {this.determineButton()} */}
-          {/* {console.log("button : ", this.state.button)} */}
-          {/* {this.state.button} */}
           {console.log("button : ", button)}
           {button}
         </label>
