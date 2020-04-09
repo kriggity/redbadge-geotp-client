@@ -1,9 +1,9 @@
 import React from "react";
-import { TextField, Button } from "@material-ui/core";
+import { CardContent, CardActions, TextField, Button } from "@material-ui/core";
 import APIURL from "../../helpers/environments";
 
 type AcceptedProps = {
-  title: string;
+  updateToken: any;
 };
 type RegisterState = {
   fullname: string;
@@ -24,30 +24,34 @@ class Register extends React.Component<AcceptedProps, RegisterState> {
   handleSubmit = (event: any): void => {
     event.preventDefault();
 
-    fetch(apiurl + "/api/users/register", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        user: {
-          fullname: this.state.fullname,
-          email: this.state.email,
-          password: this.state.password,
+    if (this.state.email !== "" && this.state.password !== "") {
+      fetch(apiurl + "/api/users/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
         },
-      }),
-    })
-      .then((response) => {
-        return response.json();
+        body: JSON.stringify({
+          user: {
+            fullname: this.state.fullname,
+            email: this.state.email,
+            password: this.state.password,
+          },
+        }),
       })
-      .then((result) => console.log(result))
-      .catch((error) => console.log("error", error));
+        .then((response) => {
+          return response.json();
+        })
+        .then((result) => {
+          // console.log(result);
+          this.props.updateToken(result.sessionToken, result.user.id);
+        })
+        .catch((error) => console.log("error", error));
+    }
   };
   render() {
     return (
-      <>
-        <h2>{this.props.title}</h2>
-        <form onSubmit={this.handleSubmit}>
+      <form onSubmit={this.handleSubmit}>
+        <CardContent>
           <TextField
             id="fullname"
             name="fullname"
@@ -61,6 +65,7 @@ class Register extends React.Component<AcceptedProps, RegisterState> {
             name="email"
             label="Email"
             type="email"
+            required
             fullWidth
             onChange={(e) => this.setState({ email: e.target.value })}
           />
@@ -69,15 +74,18 @@ class Register extends React.Component<AcceptedProps, RegisterState> {
             name="password"
             label="Password"
             type="password"
+            required
             fullWidth
             onChange={(e) => this.setState({ password: e.target.value })}
           />
+        </CardContent>
+        <CardActions>
           <Button type="reset">Clear Form</Button>
           <Button type="submit" color="primary">
             Create Account
           </Button>
-        </form>
-      </>
+        </CardActions>
+      </form>
     );
   }
 }
