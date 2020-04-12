@@ -13,7 +13,7 @@ class SiteBar extends React.Component<SiteBarProps, SiteBarState> {
   constructor(props: SiteBarProps) {
     super(props);
     this.state = {
-      // signedIn: false,
+      // signedIn: this.props.signedIn,
     };
   }
   render() {

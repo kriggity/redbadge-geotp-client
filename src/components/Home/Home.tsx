@@ -1,4 +1,6 @@
 import React from "react";
+import Comments from "../Comments/Comments";
+import Locations from "../Locations/Locations";
 
 type HomeProps = {
   signedIn: boolean;
@@ -28,9 +30,9 @@ class Home extends React.Component<HomeProps, HomeState> {
             <></>
           )}
         </div>
-        <p>Location List</p>
+        <Locations />
         <div className="comments">
-          <h3>Comment List</h3>
+          <Comments />
           {!this.props.signedIn ? (
             <></>
           ) : (

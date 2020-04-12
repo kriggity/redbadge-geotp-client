@@ -1,5 +1,6 @@
 import React from "react";
 import { CardContent, CardActions, TextField, Button } from "@material-ui/core";
+import ValidateEmail from "../Utilities/ValidateEmail";
 import APIURL from "../../helpers/environments";
 
 type AcceptedProps = {
@@ -52,20 +53,13 @@ class Login extends React.Component<AcceptedProps, LoginState> {
     });
   };
 
-  ValidateEmail(mail: string) {
-    if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(mail)) {
-      return true;
-    }
-    return false;
-  }
-
   handleChange = (event: any) => {
     event.preventDefault();
     this.setState({
       [event.target.name]: event.target.value,
     } as LoginState); // needs 'as LoginState' to actually work
 
-    if (this.ValidateEmail(this.state.email)) {
+    if (ValidateEmail(this.state.email)) {
       this.setState({
         emailValid: true,
         emailError: false,
@@ -78,7 +72,13 @@ class Login extends React.Component<AcceptedProps, LoginState> {
         emailValid: false,
       });
     }
-    if (this.state.password !== "") {
+    if (this.state.password === "") {
+      this.setState({
+        passwordValid: false,
+        passwordError: true,
+        passwordErrorText: "Valid password required",
+      });
+    } else {
       this.setState({
         passwordValid: true,
         passwordError: false,

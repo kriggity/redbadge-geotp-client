@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import Login from "./Login";
 import Register from "./Register";
 import {
@@ -37,6 +38,7 @@ class Auth extends React.Component<AuthProps, AuthState> {
           <Card>
             <CardContent>
               <h3>Welcome, {this.props.uName}.</h3>
+              <Link to="/">Show me where the TP is!</Link>
             </CardContent>
           </Card>
         </div>

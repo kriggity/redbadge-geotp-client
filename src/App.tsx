@@ -12,41 +12,39 @@ import { Container } from "@material-ui/core";
 
 import "./App.css";
 
-type AppProps = {
-  // tokenProp: string | null;
-};
+type AppProps = {};
 type AppState = {
-  sessionToken: string | null;
+  sessionToken: any;
   signedIn: boolean;
   userId: number | null;
   userName: string | null;
 };
-// let newToken: string = "";
 
 class App extends React.Component<AppProps, AppState> {
   constructor(props: AppProps) {
     super(props);
     this.state = {
-      sessionToken: localStorage.getItem("token"),
+      sessionToken: "",
       signedIn: false,
       userId: null,
       userName: null,
     };
   }
-  componentDidMount() {
-    if (
-      this.state.sessionToken === "" ||
-      this.state.sessionToken == null ||
-      this.state.sessionToken === undefined
-    ) {
-      this.setState({
-        signedIn: false,
-        userId: null,
-      });
+  getUserId = () => {
+    if (this.state.signedIn) {
+      return this.state.userId;
     } else {
+      return null;
+    }
+  };
+  componentDidMount() {
+    if (localStorage.getItem("token") !== null) {
       this.setState({
         signedIn: true,
+        sessionToken: localStorage.getItem("token"),
       });
+    } else {
+      this.clearToken();
     }
     let lsId: string | null = localStorage.getItem("id");
     let lsUname: string | null = localStorage.getItem("userName");
@@ -113,7 +111,10 @@ class App extends React.Component<AppProps, AppState> {
                 />
               </Route>
               <Route exact path="/myaccount">
-                <MyAccount />
+                <MyAccount
+                  signedIn={this.state.signedIn}
+                  clearToken={this.clearToken}
+                />
               </Route>
             </Switch>
           </Container>
