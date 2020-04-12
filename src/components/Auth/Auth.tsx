@@ -1,10 +1,21 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import Login from "./Login";
 import Register from "./Register";
-import { Card, CardContent, Link } from "@material-ui/core";
+import {
+  Card,
+  CardHeader,
+  CardContent,
+  CardActionArea,
+} from "@material-ui/core";
 import "./Auth.css";
 
-type AuthProps = {};
+type AuthProps = {
+  loginProp: boolean;
+  updateToken: any;
+  signedIn: boolean;
+  uName: string | null;
+};
 type AuthState = {
   showLogin: boolean;
 };
@@ -13,7 +24,7 @@ class Auth extends React.Component<AuthProps, AuthState> {
   constructor(props: AuthProps) {
     super(props);
     this.state = {
-      showLogin: true,
+      showLogin: this.props.loginProp,
     };
     this.toggleLogin = this.toggleLogin.bind(this);
   }
@@ -21,24 +32,40 @@ class Auth extends React.Component<AuthProps, AuthState> {
     this.setState({ showLogin: !this.state.showLogin });
   };
   render() {
-    return (
-      <div className="Auth">
-        <Card>
-          <CardContent>
+    if (this.props.signedIn) {
+      return (
+        <div className="Auth">
+          <Card>
+            <CardContent>
+              <h3>Welcome, {this.props.uName}.</h3>
+              <Link to="/">Show me where the TP is!</Link>
+            </CardContent>
+          </Card>
+        </div>
+      );
+    } else {
+      return (
+        <div className="Auth">
+          <Card>
+            <CardHeader
+              title={this.state.showLogin ? "Sign In" : "Create Account"}
+            />
             {this.state.showLogin ? (
-              <Login title="Sign In" />
+              <Login updateToken={this.props.updateToken} />
             ) : (
-              <Register title="Register" />
+              <Register updateToken={this.props.updateToken} />
             )}
-            <div>
-              <Link onClick={this.toggleLogin}>
-                {this.state.showLogin ? "Create Account" : "Sign In"}
-              </Link>
-            </div>
-          </CardContent>
-        </Card>
-      </div>
-    );
+            <CardActionArea onClick={this.toggleLogin}>
+              <p>
+                {this.state.showLogin
+                  ? "Not a contributor? Create an Account"
+                  : "Already a contributor? Sign In"}
+              </p>
+            </CardActionArea>
+          </Card>
+        </div>
+      );
+    }
   }
 }
 

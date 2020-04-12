@@ -3,6 +3,8 @@ import './Footer.css';
 
 export default function Footer() {
     return (
-        <footer className="App-footer">&copy; TwoForTP 2020</footer>
+        <footer className="App-footer">
+            <p>&copy; TwoForTP 2020</p>
+        </footer>
     );
 }
