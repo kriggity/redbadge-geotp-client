@@ -5,25 +5,24 @@ import ListItemText from '@material-ui/core/ListItemText';
 import ToggleSwitch from '../ToggleSwitch/ToggleSwitch'
 
 
-// const PlacesMapper = props => {
-// export default PlacesMapper;
+type MapperProps = {
+    nearbyTPSellers: Array<any>
 
+}
 
-export default class PlacesMapper extends React.Component {
+type PlacesState = {
     
-    constructor(props) {
+}
+
+class PlacesMapper extends React.Component<MapperProps , {}> {
+    
+    constructor(props: MapperProps) {
         super(props)
-        this.state = {
-            nearbyTPSellers: props.nearbyTPSellers
-        }
+        // this.state = {
+        //     nearbyTPSellers: props.nearbyTPSellers
+        // }
     }
 
-    // if(props.firstRender) { 
-
-    //     return null;
-    // }
-    // let placesMapper = placesArray => placesArray.map((place, index) => {
-    // let placesMapper = placesArray.map((place, index) => {
         render() {
 
             console.log("in render of PlacesMapper with props:")
@@ -34,7 +33,6 @@ export default class PlacesMapper extends React.Component {
             return (
             <div>
                 {console.log("in the return of PlacesMapper")}
-                {console.log(this.props.nearbyTPSellers[0])}
                 {this.props.nearbyTPSellers.map((place, index) => (
                     <ListItem key={index}>
                         <ListItemText>
@@ -46,7 +44,7 @@ export default class PlacesMapper extends React.Component {
                             </a>
                         </ListItemText>
                         <ListItemText>
-                            <ToggleSwitch id={place.id}/>
+                            <ToggleSwitch id={place.id} name={place.name} />
                         </ListItemText>
                     </ListItem>
                 ))}
@@ -54,3 +52,5 @@ export default class PlacesMapper extends React.Component {
             )
         }
 }
+
+export default PlacesMapper;
