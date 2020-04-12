@@ -308,7 +308,7 @@ class MyAccount extends React.Component<IMyAccountProps, IMyAccountState> {
       return (
         <div className="myAccount">
           <h3>
-            Please <Link to="/signin">Sign In</Link> In to edit your account.
+            Please <Link to="/signin">Sign In</Link> to edit your account.
           </h3>
         </div>
       );

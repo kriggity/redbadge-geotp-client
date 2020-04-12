@@ -1,5 +1,4 @@
 import React from 'react';
-import TacoFancy from '../TacoFancy/TacoFancy'
 import './Footer.css';
 
 export default function Footer() {
