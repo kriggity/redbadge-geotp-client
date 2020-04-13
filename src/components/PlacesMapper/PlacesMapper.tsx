@@ -1,5 +1,5 @@
-import React, { Component } from "react";
-import { List, ListItem, ListItemText } from "@material-ui/core";
+import * as React from "react";
+import { ListItem, ListItemText } from "@material-ui/core";
 import ToggleSwitch from "../ToggleSwitch/ToggleSwitch";
 
 type MapperProps = {
@@ -9,26 +9,33 @@ type MapperProps = {
 type PlacesState = {};
 
 class PlacesMapper extends React.Component<MapperProps, {}> {
-  constructor(props: MapperProps) {
-    super(props);
-    // this.state = {
-    //     nearbyTPSellers: props.nearbyTPSellers
-    // }
-  }
+  //   constructor(props: MapperProps) {
+  // super(props);
+  // this.state = {
+  //     nearbyTPSellers: props.nearbyTPSellers
+  // }
+  //   }
 
-  render() {
-    // console.log("in render of PlacesMapper with props:");
+  // locMapper = (arr: any): any => {
+  //   if (arr !== "" || arr !== null || arr !== "undefined") {
+  //     return Object.values(arr).map((loc?: any, idx?: number) => (
+  //       <li key={idx}>{loc?.name}</li>
+  //     ));
+  //   } else {
+  //     return (
+  //       <>
+  //         <p>No Nearby Retail Locations</p>
+  //       </>
+  //     );
+  //   }
+  // };
 
-    // console.log(this.props);
-
+  render(): JSX.Element {
     return (
       <div>
-        {/* {console.log("in the return of PlacesMapper")} */}
         {this.props.nearbyTPSellers.map((place, index) => (
           <ListItem key={index}>
             <ListItemText>
-              {/* {console.log("place.name ", place.name)} */}
-              {/* {console.log("place.id ", place.id)} */}
               <a
                 href={`//www.google.com/maps/search/?api=1&query=${place.geometry.location.lat},${place.geometry.location.lng}`}
                 target="_blank"
