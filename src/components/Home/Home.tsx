@@ -1,11 +1,14 @@
 import React from "react";
 import Comments from "../Comments/Comments";
-import Locations from "../Locations/Locations";
+// import Locations from "../Locations/Locations";
+import LocationList from "../LocationList/LocationList";
 
 type HomeProps = {
   signedIn: boolean;
 };
 type HomeState = {};
+let latitude: number = 39.9122681;
+let longitude: number = -86.1355665;
 
 class Home extends React.Component<HomeProps, HomeState> {
   constructor(props: HomeProps) {
@@ -18,7 +21,8 @@ class Home extends React.Component<HomeProps, HomeState> {
         <h2>Home</h2>
         <div className="locations">
           <h3>Location List</h3>
-          {this.props.signedIn ? (
+          <LocationList latitude={latitude} longitude={longitude}/>
+          {/* {this.props.signedIn ? (
             <>
               <ul>
                 <li>Add Location</li>
@@ -28,9 +32,9 @@ class Home extends React.Component<HomeProps, HomeState> {
             </>
           ) : (
             <></>
-          )}
+          )} */}
         </div>
-        <Locations />
+
         <div className="comments">
           <Comments />
           {!this.props.signedIn ? (
