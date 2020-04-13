@@ -4,8 +4,6 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Auth from "./components/Auth/Auth";
 import Sitebar from "./components/Navbar/Navbar";
 import Footer from "./components/Footer/Footer";
-import LocationList from './components/LocationList/LocationList'
-
 
 import Home from "./components/Home/Home";
 import MyAccount from "./components/User/MyAccount";
