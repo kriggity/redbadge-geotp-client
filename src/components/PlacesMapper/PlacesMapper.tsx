@@ -1,9 +1,12 @@
 import * as React from "react";
 import { ListItem, ListItemText } from "@material-ui/core";
 import ToggleSwitch from "../ToggleSwitch/ToggleSwitch";
+import Distance from "../Utilities/Distance";
 
 type MapperProps = {
   nearbyTPSellers: Array<any>;
+  lat: any;
+  long: any;
 };
 
 type PlacesState = {};
@@ -32,7 +35,7 @@ class PlacesMapper extends React.Component<MapperProps, {}> {
 
   render(): JSX.Element {
     return (
-      <div>
+      <>
         {this.props.nearbyTPSellers.map((place, index) => (
           <ListItem key={index}>
             <ListItemText>
@@ -45,13 +48,22 @@ class PlacesMapper extends React.Component<MapperProps, {}> {
                 <br />
                 {place.vicinity}
               </a>
+              <p>
+                {Distance(
+                  this.props.lat,
+                  this.props.long,
+                  place.geometry.location.lat,
+                  place.geometry.location.lng,
+                  "M"
+                )} away
+              </p>
             </ListItemText>
             <ListItemText>
               <ToggleSwitch id={place.id} name={place.name} />
             </ListItemText>
           </ListItem>
         ))}
-      </div>
+      </>
     );
   }
 }
