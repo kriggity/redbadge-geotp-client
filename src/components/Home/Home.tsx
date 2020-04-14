@@ -16,35 +16,10 @@ class Home extends React.Component<HomeProps, HomeState> {
   render() {
     return (
       <div className="Home">
-        <h2>Home</h2>
         <div className="locations">
-          <h3>Location List</h3>
+          <h3>Retail Locations Close to You</h3>
           <LocationList />
-          {/* {this.props.signedIn ? (
-            <>
-              <ul>
-                <li>Add Location</li>
-                <li>Edit Location Status</li>
-                <li>Confirm Thumbs Up</li>
-              </ul>
-            </>
-          ) : (
-            <></>
-          )} */}
         </div>
-
-        {/* <div className="comments">
-          <Comments />
-          {!this.props.signedIn ? (
-            <></>
-          ) : (
-            <>
-              <ul>
-                <li>Add Comment</li>
-              </ul>
-            </>
-          )}
-        </div> */}
       </div>
     );
   }

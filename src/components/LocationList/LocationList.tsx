@@ -90,12 +90,16 @@ class LocationList extends React.Component<GeolocatedProps, ILocListState> {
     ) : this.state.fetchComplete ? (
       <div>
         <List>
-          <PlacesMapper nearbyTPSellers={this.state.nearbyTPSellers} />
+          <PlacesMapper
+            nearbyTPSellers={this.state.nearbyTPSellers}
+            lat={this.state.latitude}
+            long={this.state.longitude}
+          />
         </List>
       </div>
     ) : (
       <div id="gettingData">
-        <h3>Getting the location data&hellip;</h3>
+        <h4>Finding Locations...</h4>
         <CircularProgress />
       </div>
     );
