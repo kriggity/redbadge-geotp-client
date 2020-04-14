@@ -3,7 +3,7 @@ import { List, ListItem, ListItemText } from "@material-ui/core";
 import ToggleSwitch from "../ToggleSwitch/ToggleSwitch";
 
 type MapperProps = {
-  nearbyTPSellers: Array<any>;
+  nearbyTPSellers: Array<any>,
 };
 
 type PlacesState = {};
@@ -40,7 +40,7 @@ class PlacesMapper extends React.Component<MapperProps, {}> {
               </a>
             </ListItemText>
             <ListItemText>
-              <ToggleSwitch id={place.id} name={place.name} />
+              <ToggleSwitch id={place.id} name={place.name} address={place.vicinity}/>
             </ListItemText>
           </ListItem>
         ))}
