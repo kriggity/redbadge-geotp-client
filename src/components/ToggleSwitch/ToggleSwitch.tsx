@@ -47,7 +47,6 @@ class ToggleSwitch extends React.Component<ToggleProps, ToggleState> {
   // When we want to display the modal, set the showModalSwitch to true. The if/else in the render will select the return for the modal and display the modal
   showModal = () => {
     this.setState({ showModalSwitch: true });
-    console.log("showModal.............")
   };
 
   // When we want to stop displaying the modal, set the showModalSwitch to false. The if/else in the render will select the return for the main display rather than the modal
@@ -57,7 +56,6 @@ class ToggleSwitch extends React.Component<ToggleProps, ToggleState> {
 
   // Put a toggle switch in the Create Location Status modal. Set 'checked' based on the selected position of the toggle switch
   modalToggle = (checked: boolean) => {
-    console.log("in handleChange, checked = ", checked)
     this.setState({ checked });
     }
   /*
@@ -65,6 +63,11 @@ class ToggleSwitch extends React.Component<ToggleProps, ToggleState> {
     If there is no record in the table for this location id, set placeInDB to false
   */
   componentDidMount() {
+    this.fetchLocationByID();
+  }
+
+  fetchLocationByID = (): any => {
+
         fetch(`http://localhost:3001/api/locations/${this.props.id}`, {
       method: 'GET',
       headers: new Headers ({
@@ -88,7 +91,8 @@ class ToggleSwitch extends React.Component<ToggleProps, ToggleState> {
       }
   })
   .catch(err => console.log(err))
-  }
+
+}
 
 
   saveStatus(e:any) {
@@ -125,16 +129,15 @@ class ToggleSwitch extends React.Component<ToggleProps, ToggleState> {
     })
 
     this.hideModal();
+    this.fetchLocationByID();
+
   }
 
   handleChange(checked: boolean) {
-    console.log("in handleChange, id = ", this.state.id)
     this.setState({ checked });
   }
  
   render() {
-    console.log("props : ", this.props)
-    console.log("ID : ", this.props.id)
     // buttonSwitch will hold the definition of the "No Status" button or the Toggle Switch
     let buttonSwitch: any;
     // showModalSwitch will get set to true when we're ready to show the modal connected with clicking the "No Status" button
@@ -175,8 +178,6 @@ class ToggleSwitch extends React.Component<ToggleProps, ToggleState> {
       return (
         <div>
           <label>
-            {console.log("placeInDB is : ", this.state.placeInDB)}
-            {console.log("button : ", buttonSwitch)}
             {buttonSwitch}
           </label>
           <br/>
