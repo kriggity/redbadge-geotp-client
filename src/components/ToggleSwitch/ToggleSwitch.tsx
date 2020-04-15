@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import * as React from "react";
 // import React, { Component, button } from "react";
 import Switch from "react-switch";
 import './ToggleSwitch.css'
@@ -85,7 +85,7 @@ class ToggleSwitch extends React.Component<ToggleProps, ToggleState> {
           'Content-Type': 'application/json',
           // 'Authorization': props.token
       })
-  }   ) .then((res) => {
+  }   ).then((res) => {
       console.log("****** POST was successful ******")
       return res.json()
   })
