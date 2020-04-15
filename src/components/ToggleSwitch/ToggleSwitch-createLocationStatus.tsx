@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+// import React, { Component, button } from "react";
 import Switch from "react-switch";
 import {
   BrowserRouter as Router,
@@ -7,6 +8,7 @@ import {
 } from "react-router-dom";
 import './ToggleSwitch.css'
 import CreateLocationStatus from '../Modal/CreateLocationStatus'
+// import ThumbsUp from '../ThumbsUpVote/ThumbsUp'
 
 type ToggleProps = {
   id: string,
@@ -42,20 +44,19 @@ class ToggleSwitch extends React.Component<ToggleProps, ToggleState> {
     };
     this.handleChange = this.handleChange.bind(this);
     this.saveStatus = this.saveStatus.bind(this);
+    // this.createStatus = this.createStatus.bind(this);
+
   }
 
-  // When we want to display the modal, set the showModalSwitch to true. The if/else in the render will select the return for the modal and display the modal
   showModal = () => {
     this.setState({ showModalSwitch: true });
     console.log("showModal.............")
   };
 
-  // When we want to stop displaying the modal, set the showModalSwitch to false. The if/else in the render will select the return for the main display rather than the modal
   hideModal = () => {
     this.setState({ showModalSwitch: false });
   };
 
-  // Put a toggle switch in the Create Location Status modal. Set 'checked' based on the selected position of the toggle switch
   modalToggle = (checked: boolean) => {
     console.log("in handleChange, checked = ", checked)
     this.setState({ checked });
@@ -65,10 +66,11 @@ class ToggleSwitch extends React.Component<ToggleProps, ToggleState> {
     If there is no record in the table for this location id, set placeInDB to false
   */
   componentDidMount() {
-        fetch(`http://localhost:3001/api/locations/${this.props.id}`, {
+    fetch(`http://localhost:3001/api/locations/${this.props.id}`, {
       method: 'GET',
       headers: new Headers ({
           'Content-Type': 'application/json',
+          // 'Authorization': props.token
       })
   }).then((res) => {
       return res.json(); 
@@ -91,11 +93,32 @@ class ToggleSwitch extends React.Component<ToggleProps, ToggleState> {
   }
 
 
+  // saveStatus(e:any, id:string, name:string, checked:boolean) {
   saveStatus(e:any) {
     e.preventDefault();
     // console.log("saveStatus state", id, name, checked)
     console.log("saveStatus ", this.state)
     console.log("print me")
+
+
+/*
+    const googleid:string = this.state.id;
+    const name:string = this.state.name;
+    const status:boolean = this.state.checked;
+
+    let stringifyMe:object = {
+      googleid: googleid,
+      name: name,
+      status: status,
+      votecount: 0
+    }
+    let stringifiedObject:string = JSON.stringify(stringifyMe)
+    console.log("stringifiedObject ", stringifiedObject)
+
+
+    let stringified:string = JSON.stringify(googleid)
+    console.log("stringified ",stringified)
+*/
 
     let stringified:string = JSON.stringify(
       {
@@ -108,6 +131,7 @@ class ToggleSwitch extends React.Component<ToggleProps, ToggleState> {
 
     fetch('http://localhost:3001/api/locations/add', {
         method: 'POST',
+        // body: JSON.stringify(stringifyMe),
         body: JSON.stringify(
             {
               "location": {
@@ -123,9 +147,63 @@ class ToggleSwitch extends React.Component<ToggleProps, ToggleState> {
     })    .then((res) => {
         return res.json(); 
     })
+  //      }) .then((res:any) => {return res.text()})          // convert to plain text
+  // .then((text:any) => console.log(text))  // then log it out
+  /*
+    .then((logData) => {
+      console.log("the fetch returned", logData);
+      if (logData === null) { 
+          console.log("logData is null")
+        // this.setState({ placeInDB: false}) 
+      } else {
+          console.log(`logData is ${logData}`)
+        //   this.setState({ placeInDB: true});
+        //   this.setState({votecount: logData.votecount})
+        //   if(logData.status) {
+        //     this.setState({checked: true}) 
+        //   } else {
+        //     this.setState({checked: false})
+          }
+        })
+        .catch(err => console.log(err))
+  */
+    }
 
-    this.hideModal();
+
+
+  // const handleSubmit = (e) => {
+// Failed attempt at creating new location status ???????
+/*
+createStatus(e:any) {
+      console.log("************* you're in createStatus ***************")
+      console.log("googleid : ", this.state.id)
+      console.log("name: ", this.state.name)
+      e.preventDefault();
+
+      fetch('http://localhost:3001/api/locations/add', {
+      method: 'POST',
+      body: JSON.stringify(
+          {
+            googleid: this.state.id,
+            name: this.state.name,
+            status: true,
+            votecount: 1
+        
+          }
+      ),
+      headers: new Headers({
+          'Content-Type': 'application/json',
+          // 'Authorization': props.token
+      })
+  }   ) .then((res) => {
+      console.log("****** POST was successful ******")
+      return res.json()
+  })
+  .then((logData) => {
+      console.log("********** res.json successful - logData = ", logData);
+  })
   }
+*/
 
   handleChange(checked: boolean) {
     console.log("in handleChange, id = ", this.state.id)
@@ -150,6 +228,8 @@ class ToggleSwitch extends React.Component<ToggleProps, ToggleState> {
     buttonSwitch = <Switch onChange={this.handleChange} checked={this.state.checked} /> :
     // "No Status" button - when clicked, go to showModal to so the modal Return will be executed
     buttonSwitch = <button type="button" onClick={this.showModal}>No Status</button>
+    // buttonSwitch = <Link to="/createStatus">No Status</Link>
+    // buttonSwitch = <button onClick={this.createStatus}>No Status</button>
 
     if(this.state.showModalSwitch) {
       return(
@@ -159,6 +239,7 @@ class ToggleSwitch extends React.Component<ToggleProps, ToggleState> {
             <br/>
             {this.props.name}<br/>{this.props.address}<br/>
             <h5>DOES NOT Have TP</h5><Switch onChange={this.modalToggle} checked={this.state.checked} /><h5>DOES Have TP</h5>
+            {/* <Switch onChange={this.props.handleChange(!this.state.checked)} checked={this.state.checked} /> */}
             <br/>
             <label>
                 Comment:
@@ -168,6 +249,7 @@ class ToggleSwitch extends React.Component<ToggleProps, ToggleState> {
             <button onClick={this.hideModal}>close</button>
             <br/>
             <button onClick={this.saveStatus}>Save TP status?</button>
+            {/* <button onClick={() => this.saveStatus(event, this.state.id, this.state.name, this.state.checked )}>Save TP status?</button> */}
         </section>
         </div>
   
@@ -189,6 +271,8 @@ class ToggleSwitch extends React.Component<ToggleProps, ToggleState> {
               {/* need to fetch comment count from comment table */}
               <p>0     {this.state.votecount} </p> 
   
+          {/* <CreateLocationStatus id={this.props.id} name={this.props.name} address={this.props.address} showModalSwitch={this.state.showModalSwitch} handleClose={this.hideModal} handleChange={this.handleChange} checked={this.state.checked}/>
+          {console.log(`CreateLocationStatus ${this.props.id} ${this.props.name} ${this.props.address} ${this.state.showModalSwitch} ${this.hideModal} ${this.handleChange} ${this.state.checked}` )} */}
         </div>
         )  
     }
