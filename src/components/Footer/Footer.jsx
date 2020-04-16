@@ -1,6 +1,5 @@
 import React from 'react';
 import { Typography, Box } from '@material-ui/core';
-import TacoFancy from '../TacoFancy/TacoFancy';
 import './Footer.css';
 import Jeopardy from '../james/jeopardyfetch';
 import TacoFancy from '../TacoFancy/TacoFancy';
