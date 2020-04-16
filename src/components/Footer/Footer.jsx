@@ -12,8 +12,8 @@ export default function Footer() {
                 <Box textAlign="center">
                     <p>&copy; TwoForTP 2020</p>
                 </Box>
-            </Typography>  
-        <Bored />
+            </Typography>
+            <Bored />
             <Jeopardy />
             <TacoFancy />
 
