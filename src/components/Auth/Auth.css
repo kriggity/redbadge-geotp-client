@@ -1,0 +1,13 @@
+.Auth {
+  margin-top: 1.666em;
+}
+.Auth .MuiCardHeader-root {
+  background-color: powderblue;
+}
+.Auth .MuiCardHeader-root .MuiCardHeader-title {
+  color: midnightblue;
+}
+.Auth .accountToggle {
+  color: midnightblue;
+  padding: 0.666em;
+}

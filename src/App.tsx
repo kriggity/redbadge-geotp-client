@@ -89,7 +89,7 @@ class App extends React.Component<AppProps, AppState> {
             clearToken={this.clearToken}
             signedIn={this.state.signedIn}
           />
-          <Container fixed>
+          <Container fixed maxWidth='sm' className="mainContent">
             <Switch>
               <Route exact path="/">
                 <Home signedIn={this.state.signedIn} />
