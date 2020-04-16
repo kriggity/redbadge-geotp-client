@@ -4,6 +4,9 @@
 #root .App .App-main {
   background-color: transparent;
 }
+#root .App .mainContent {
+  min-height: 76vh;
+}
 #root .App .App-footer {
   background-color: transparent;
 }
