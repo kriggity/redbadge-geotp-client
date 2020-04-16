@@ -2,6 +2,7 @@ import React from 'react';
 import { Typography, Box } from '@material-ui/core';
 import TacoFancy from '../TacoFancy/TacoFancy';
 import './Footer.css';
+import Jeopardy from '../james/jeopardyfetch';
 
 export default function Footer() {
     return (
@@ -10,7 +11,8 @@ export default function Footer() {
                 <Box textAlign="center">
                     <p>&copy; TwoForTP 2020</p>
                 </Box>
-            </Typography>
+            </Typography>            
+            <Jeopardy />
             <TacoFancy />
         </footer>
     );
