@@ -3,11 +3,14 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import ToggleSwitch from '../ToggleSwitch/ToggleSwitch'
+import Distance from "../Utilities/Distance";
+
 
 
 type MapperProps = {
-    nearbyTPSellers: Array<any>
-
+    nearbyTPSellers: Array<any>,
+    lat: any,
+    long: any
 }
 
 type PlacesState = {
@@ -18,9 +21,11 @@ class PlacesMapper extends React.Component<MapperProps , {}> {
     
     constructor(props: MapperProps) {
         super(props)
-        // this.state = {
+        this.state = {
+            lat: this.props.lat,
+            long: this.props.long
         //     nearbyTPSellers: props.nearbyTPSellers
-        // }
+        }
     }
 
         render() {
@@ -42,6 +47,16 @@ class PlacesMapper extends React.Component<MapperProps , {}> {
                                 href={`//www.google.com/maps/search/?api=1&query=${place.geometry.location.lat},${place.geometry.location.lng}`} target="_blank" rel="noreferrer noopener">
                                 {place.name}<br/>{place.vicinity}
                             </a>
+                            <p>
+                                {Distance(
+                                this.props.lat,
+                                this.props.long,
+                                place.geometry.location.lat,
+                                place.geometry.location.lng,
+                                "M"
+                                )} away
+                            </p>
+
                         </ListItemText>
                         <ListItemText>
                             <ToggleSwitch id={place.id} name={place.name} address={place.address} />

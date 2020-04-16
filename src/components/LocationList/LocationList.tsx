@@ -71,7 +71,9 @@ class LocationList extends React.Component<GeolocatedProps, ILocListState> {
         let location = `${lat},${long}`
         const proxyurl = "https://strawberry-crumble-15669.herokuapp.com/"
     
-        url = `${BaseURL}?location=${location}&radius=1609&type=convenience_store|department_store|drugstore|gas_station|grocery_or_supermarket|hardware_store|home_goods_store|pharmacy|shopping_mall|store|supermarket&key=${APIkey}`
+        url = `${BaseURL}?location=${location}&rankby=distance&type=convenience_store|department_store|drugstore|gas_station|grocery_or_supermarket|hardware_store|home_goods_store|pharmacy|shopping_mall|store|supermarket&key=${APIkey}`
+        // url = `${BaseURL}?location=${location}&radius=3218&type=convenience_store|department_store|drugstore|gas_station|grocery_or_supermarket|hardware_store|home_goods_store|pharmacy|shopping_mall|store|supermarket&key=${APIkey}`
+
     
         fetch(proxyurl + url)
         .then(res => res.json())
@@ -94,17 +96,18 @@ render(): JSX.Element {
   console.log(isFetching)
  
   return (
-      <>
+    <>
       { isFetching ? 
-      <div>
-          Loading...
-      </div> : 
-      <div>
-      <List>
-          {/* <h2>{this.state.nearbyTPSellers}</h2> */}
-          <PlacesMapper nearbyTPSellers={this.state.nearbyTPSellers} />
-      </List>
-      </div>}
+          <div id="gettingData">
+            <h4>Finding Locations...</h4>
+            <CircularProgress />
+          </div> : 
+          <div>
+          <List>
+              {/* <h2>{this.state.nearbyTPSellers}</h2> */}
+              <PlacesMapper nearbyTPSellers={this.state.nearbyTPSellers} lat={this.state.latitude} long={this.state.longitude} />
+          </List>
+          </div>}
 
       </>
   );
