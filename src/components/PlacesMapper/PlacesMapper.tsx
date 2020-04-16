@@ -6,7 +6,6 @@ import ToggleSwitch from '../ToggleSwitch/ToggleSwitch'
 import Distance from "../Utilities/Distance";
 
 
-
 type MapperProps = {
     nearbyTPSellers: Array<any>,
     lat: any,
@@ -29,11 +28,8 @@ class PlacesMapper extends React.Component<MapperProps , {}> {
     }
 
         render() {
-
             console.log("in render of PlacesMapper with props:")
-
             console.log(this.props)
-        
 
             return (
             <div>
