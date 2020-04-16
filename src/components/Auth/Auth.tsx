@@ -7,6 +7,7 @@ import {
   CardHeader,
   CardContent,
   CardActionArea,
+  Typography,
 } from "@material-ui/core";
 import "./Auth.css";
 
@@ -56,11 +57,11 @@ class Auth extends React.Component<AuthProps, AuthState> {
               <Register updateToken={this.props.updateToken} />
             )}
             <CardActionArea onClick={this.toggleLogin}>
-              <p>
+              <Typography align="center" className="accountToggle">
                 {this.state.showLogin
                   ? "Not a contributor? Create an Account"
                   : "Already a contributor? Sign In"}
-              </p>
+              </Typography>
             </CardActionArea>
           </Card>
         </div>

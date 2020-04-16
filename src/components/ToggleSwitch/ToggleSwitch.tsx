@@ -77,7 +77,7 @@ class ToggleSwitch extends React.Component<ToggleProps, ToggleState> {
       return res.json(); 
   })
   .then((logData) => {
-    console.log("the fetch returned", logData);
+    // console.log("the fetch returned", logData);
     if (logData === null) { 
       this.setState({ placeInDB: false}) 
     } else {
@@ -91,9 +91,7 @@ class ToggleSwitch extends React.Component<ToggleProps, ToggleState> {
       }
   })
   .catch(err => console.log(err))
-
 }
-
 
   saveStatus(e:any) {
     e.preventDefault();
@@ -138,6 +136,7 @@ class ToggleSwitch extends React.Component<ToggleProps, ToggleState> {
   }
  
   render() {
+
     // buttonSwitch will hold the definition of the "No Status" button or the Toggle Switch
     let buttonSwitch: any;
     // showModalSwitch will get set to true when we're ready to show the modal connected with clicking the "No Status" button
@@ -151,6 +150,7 @@ class ToggleSwitch extends React.Component<ToggleProps, ToggleState> {
     this.state.placeInDB ? 
     // Toggle switch - when clicked, call handleChange
     buttonSwitch = <Switch onChange={this.handleChange} checked={this.state.checked} /> :
+
     // "No Status" button - when clicked, go to showModal to so the modal Return will be executed
     buttonSwitch = <button type="button" onClick={this.showModal}>No Status</button>
 

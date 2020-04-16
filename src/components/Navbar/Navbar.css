@@ -1,0 +1,39 @@
+@font-face {
+  font-family: 'Varela Round';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Varela Round Regular'), local('VarelaRound-Regular'), url(https://fonts.gstatic.com/s/varelaround/v12/w8gdH283Tvk__Lua32TysjIvoA.ttf) format('truetype');
+}
+header.MuiAppBar-colorTransparent {
+  background-color: powderblue;
+}
+header.MuiPaper-elevation4 {
+  box-shadow: none;
+}
+header .MuiIconButton-root {
+  color: midnightblue;
+}
+header .brand {
+  font-family: "Varela Round", sans-serif;
+  color: midnightblue;
+  font-size: 1.666rem;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+header .brand,
+header .brand :hover,
+header .brand :focus,
+header .brand :visited {
+  text-decoration: none;
+}
+header .brand:hover,
+header .brand:focus {
+  color: #000;
+}
+.navList .navLink {
+  color: midnightblue;
+  text-decoration: none;
+}
