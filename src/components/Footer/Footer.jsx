@@ -1,8 +1,9 @@
 import React from 'react';
 import { Typography, Box } from '@material-ui/core';
-import './Footer.css';
-import Jeopardy from '../james/jeopardyfetch';
 import TacoFancy from '../TacoFancy/TacoFancy';
+import Jeopardy from '../james/jeopardyfetch';
+import './Footer.css';
+import Bored from './Bored'
 
 export default function Footer() {
     return (
@@ -11,9 +12,11 @@ export default function Footer() {
                 <Box textAlign="center">
                     <p>&copy; TwoForTP 2020</p>
                 </Box>
-            </Typography>            
+            </Typography>
+            <Bored />
             <Jeopardy />
             <TacoFancy />
+
         </footer>
     );
 }

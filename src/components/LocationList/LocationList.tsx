@@ -1,30 +1,32 @@
-import * as React from "react";
+import React, { Component } from "react";
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
 import {
   List,
-  //   ListItem,
-  //   ListItemText,
   CircularProgress,
 } from "@material-ui/core";
-import PlacesMapper from "../PlacesMapper/PlacesMapper";
+// import PlacesMapper from "../PlacesMapper/PlacesMapper";
 import { GeolocatedProps, geolocated } from "react-geolocated"; // this is what gets the Lat/Long
 import APIURL from "../../helpers/environments";
+import PlacesMapper from '../PlacesMapper/PlacesMapper'
+
+
+
+let APIkey = "AIzaSyDaHf49sjmm-90iUkBQpHv6I2O4kwJ_i9o";
+let BaseURL = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json';
+let url;
+
+
 
 let apiurl: string = APIURL;
-
-// interface ILocListProps {
-//   coords: {
-//     latitude: string;
-//     longitude: string;
-//   };
-//   isGeolocationAvailable: boolean; // boolean flag indicating that the browser supports the Geolocation API
-//   isGeolocationEnabled: boolean;
-// }
 
 interface ILocListState {
   nearbyTPSellers: any;
   latitude: any;
   longitude: any;
   fetchComplete: boolean;
+  isFetching: Boolean,
+
 }
 
 class LocationList extends React.Component<GeolocatedProps, ILocListState> {
@@ -35,9 +37,15 @@ class LocationList extends React.Component<GeolocatedProps, ILocListState> {
       latitude: null,
       longitude: null,
       fetchComplete: false,
+      isFetching: true
+
     };
   }
+
+
+
   componentDidUpdate() {
+    console.log("LocationList this.state: ", this.state)
     if (
       this.state.latitude !== this.props.coords?.latitude &&
       this.state.longitude !== this.props.coords?.longitude
@@ -50,7 +58,7 @@ class LocationList extends React.Component<GeolocatedProps, ILocListState> {
         this.props.coords?.latitude !== undefined &&
         this.props.coords?.longitude !== undefined
       ) {
-        this.fetchList(
+        this.continueProcessing(
           this.props.coords?.latitude,
           this.props.coords?.longitude
         );
@@ -58,53 +66,53 @@ class LocationList extends React.Component<GeolocatedProps, ILocListState> {
     }
   }
 
-  fetchList = (lat: any, long: any): any => {
-    const myHeaders: any = new Headers();
-    myHeaders.append("Content-Type", "application/json");
+    continueProcessing = (lat: any, long: any): any => {
+      console.log('lat, long : ', lat, long)
+        let location = `${lat},${long}`
+        const proxyurl = "https://strawberry-crumble-15669.herokuapp.com/"
+    
+        url = `${BaseURL}?location=${location}&rankby=distance&type=convenience_store|department_store|drugstore|gas_station|grocery_or_supermarket|hardware_store|home_goods_store|pharmacy|shopping_mall|store|supermarket&key=${APIkey}`
+        // url = `${BaseURL}?location=${location}&radius=3218&type=convenience_store|department_store|drugstore|gas_station|grocery_or_supermarket|hardware_store|home_goods_store|pharmacy|shopping_mall|store|supermarket&key=${APIkey}`
 
-    const requestOptions: any = {
-      method: "GET",
-      headers: myHeaders,
-      redirect: "follow",
-    };
+    
+        fetch(proxyurl + url)
+        .then(res => res.json())
+        .then(data => {
+            console.log(data)
+            this.setState({isFetching: false})
+    
+            this.setState({
+                nearbyTPSellers: data.results,
+            });
+        })
+        .catch(err => console.log(err))
+    }
+    
 
-    let url: string = `${apiurl}/googleapi/locations/${lat},${long}`;
 
-    fetch(url, requestOptions)
-      .then((response) => response.json())
-      .then((result) => {
-        let data: any = JSON.parse(result);
-        this.setState({
-          nearbyTPSellers: data.results,
-          fetchComplete: true,
-        });
-      })
-      .catch((error) => console.log("error", error));
-  };
+render(): JSX.Element {
 
-  render(): JSX.Element {
-    return !this.props.isGeolocationAvailable ? (
-      <div>Your browser does not support Geolocation</div>
-    ) : !this.props.isGeolocationEnabled ? (
-      <div>Geolocation is not enabled</div>
-    ) : this.state.fetchComplete ? (
-      <div>
-        <List>
-          <PlacesMapper
-            nearbyTPSellers={this.state.nearbyTPSellers}
-            lat={this.state.latitude}
-            long={this.state.longitude}
-          />
-        </List>
-      </div>
-    ) : (
-      <div id="gettingData">
-        <h4>Finding Locations...</h4>
-        <CircularProgress />
-      </div>
-    );
-  }
+  const {isFetching} = this.state;
+  console.log(isFetching)
+ 
+  return (
+    <>
+      { isFetching ? 
+          <div id="gettingData">
+            <h4>Finding Locations...</h4>
+            <CircularProgress />
+          </div> : 
+          <div>
+          <List>
+              {/* <h2>{this.state.nearbyTPSellers}</h2> */}
+              <PlacesMapper nearbyTPSellers={this.state.nearbyTPSellers} lat={this.state.latitude} long={this.state.longitude} />
+          </List>
+          </div>}
+
+      </>
+  );
+
+}
 }
 
-// export default LocationList;
 export default geolocated()(LocationList);
