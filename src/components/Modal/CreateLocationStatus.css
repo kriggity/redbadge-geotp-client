@@ -1,11 +1,4 @@
-/* styles.css */
-
-.react-switch {
-    vertical-align: middle;
-    margin-left: 4px;
-  }
-
-  .modal {
+.modal {
     position: fixed;
     top: 0;
     left: 0;
@@ -33,3 +26,7 @@
     display: none;
   }
   
+.react-switch {
+    vertical-align: middle;
+    margin-left: 4px;
+  }
