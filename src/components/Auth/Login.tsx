@@ -1,13 +1,22 @@
 import React from "react";
-import { TextField, Button } from "@material-ui/core";
+import { CardContent, CardActions, TextField, Button } from "@material-ui/core";
+import ValidateEmail from "../Utilities/ValidateEmail";
 import APIURL from "../../helpers/environments";
 
 type AcceptedProps = {
-  title: string;
+  updateToken: any;
 };
 type LoginState = {
   email: string;
+  emailValid: boolean;
+  emailError: boolean;
+  emailErrorText: string;
   password: string;
+  passwordValid: boolean;
+  passwordError: boolean;
+  passwordErrorText: string;
+
+  disabled: boolean;
 };
 let apiurl: string = APIURL;
 
@@ -16,12 +25,94 @@ class Login extends React.Component<AcceptedProps, LoginState> {
     super(props);
     this.state = {
       email: "",
+      emailValid: false,
+      emailError: false,
+      emailErrorText: "",
       password: "",
+      passwordValid: false,
+      passwordError: false,
+      passwordErrorText: "",
+
+      disabled: true,
     };
-    this.handleSubmit = this.handleSubmit.bind(this);
   }
-  handleSubmit = (event: any): void => {
+
+  clearForm = (event: any) => {
     event.preventDefault();
+    this.setState({
+      email: "",
+      emailValid: false,
+      emailError: false,
+      emailErrorText: "",
+      password: "",
+      passwordValid: false,
+      passwordError: false,
+      passwordErrorText: "",
+
+      disabled: true,
+    });
+  };
+
+  handleChange = (event: any) => {
+    event.preventDefault();
+    this.setState({
+      [event.target.name]: event.target.value,
+    } as LoginState); // needs 'as LoginState' to actually work
+
+    if (ValidateEmail(this.state.email)) {
+      this.setState({
+        emailValid: true,
+        emailError: false,
+        emailErrorText: "",
+      });
+    } else {
+      this.setState({
+        emailError: true,
+        emailErrorText: "Valid email address required",
+        emailValid: false,
+      });
+    }
+    if (this.state.password === "") {
+      this.setState({
+        passwordValid: false,
+        passwordError: true,
+        passwordErrorText: "Valid password required",
+      });
+    } else {
+      this.setState({
+        passwordValid: true,
+        passwordError: false,
+        passwordErrorText: "",
+      });
+    }
+    if (this.state.emailValid && this.state.passwordValid) {
+      this.setState({
+        disabled: false,
+      });
+    } else if (!this.state.emailValid || !this.state.passwordValid) {
+      this.setState({
+        disabled: true,
+      });
+    }
+  };
+
+  handleSubmit = (event: any) => {
+    event.preventDefault();
+
+    if (this.state.email === "") {
+      this.setState({
+        emailError: true,
+        emailErrorText: "Valid email address required",
+        emailValid: false,
+      });
+    }
+    if (this.state.password === "") {
+      this.setState({
+        passwordError: true,
+        passwordErrorText: "Valid password required",
+        passwordValid: false,
+      });
+    }
 
     fetch(apiurl + "/api/users/login", {
       method: "POST",
@@ -38,21 +129,28 @@ class Login extends React.Component<AcceptedProps, LoginState> {
       .then((response) => {
         return response.json();
       })
-      .then((result) => console.log(result))
+      .then((result) => {
+        let id: number = parseInt(result.user.id, 10);
+        let userName: string = result.user.fullname;
+        this.props.updateToken(result.sessionToken, id, userName);
+      })
       .catch((error) => console.log("error", error));
   };
   render() {
     return (
-      <>
-        <h2>{this.props.title}</h2>
-        <form onSubmit={this.handleSubmit}>
+      <form onSubmit={this.handleSubmit} noValidate>
+        <CardContent>
           <TextField
             id="email"
             name="email"
             label="Email"
             type="email"
             fullWidth
-            onChange={(e) => this.setState({ email: e.target.value })}
+            required
+            error={this.state.emailError}
+            helperText={this.state.emailErrorText}
+            onChange={this.handleChange}
+            onBlur={this.handleChange}
           />
           <TextField
             id="password"
@@ -60,14 +158,22 @@ class Login extends React.Component<AcceptedProps, LoginState> {
             label="Password"
             type="password"
             fullWidth
-            onChange={(e) => this.setState({ password: e.target.value })}
+            required
+            error={this.state.passwordError}
+            helperText={this.state.passwordErrorText}
+            onChange={this.handleChange}
+            onBlur={this.handleChange}
           />
-          <Button type="reset">Clear Form</Button>
-          <Button color="primary" type="submit">
+        </CardContent>
+        <CardActions>
+          <Button type="reset" onClick={this.clearForm}>
+            Clear Form
+          </Button>
+          <Button color="primary" type="submit" disabled={this.state.disabled}>
             Sign In
           </Button>
-        </form>
-      </>
+        </CardActions>
+      </form>
     );
   }
 }

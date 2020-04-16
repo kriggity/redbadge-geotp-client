@@ -1,56 +1,71 @@
-import React, { Component } from "react";
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
-import ToggleSwitch from '../ToggleSwitch/ToggleSwitch'
-
+import * as React from "react";
+import { ListItem, ListItemText } from "@material-ui/core";
+import ToggleSwitch from "../ToggleSwitch/ToggleSwitch";
+import Distance from "../Utilities/Distance";
 
 type MapperProps = {
-    nearbyTPSellers: Array<any>
+  nearbyTPSellers: Array<any>;
+  lat: any;
+  long: any;
+};
 
-}
+type PlacesState = {};
 
-type PlacesState = {
-    
-}
+class PlacesMapper extends React.Component<MapperProps, {}> {
+  //   constructor(props: MapperProps) {
+  // super(props);
+  // this.state = {
+  //     nearbyTPSellers: props.nearbyTPSellers
+  // }
+  //   }
 
-class PlacesMapper extends React.Component<MapperProps , {}> {
-    
-    constructor(props: MapperProps) {
-        super(props)
-        // this.state = {
-        //     nearbyTPSellers: props.nearbyTPSellers
-        // }
-    }
+  // locMapper = (arr: any): any => {
+  //   if (arr !== "" || arr !== null || arr !== "undefined") {
+  //     return Object.values(arr).map((loc?: any, idx?: number) => (
+  //       <li key={idx}>{loc?.name}</li>
+  //     ));
+  //   } else {
+  //     return (
+  //       <>
+  //         <p>No Nearby Retail Locations</p>
+  //       </>
+  //     );
+  //   }
+  // };
 
-        render() {
-
-            console.log("in render of PlacesMapper with props:")
-
-            console.log(this.props)
-        
-
-            return (
-            <div>
-                {console.log("in the return of PlacesMapper")}
-                {this.props.nearbyTPSellers.map((place, index) => (
-                    <ListItem key={index}>
-                        <ListItemText>
-                            {console.log("place.name ", place.name)}
-                            {console.log("place.id ", place.id)}
-                            <a 
-                                href={`//www.google.com/maps/search/?api=1&query=${place.geometry.location.lat},${place.geometry.location.lng}`} target="_blank" rel="noreferrer noopener">
-                                {place.name}<br/>{place.vicinity}
-                            </a>
-                        </ListItemText>
-                        <ListItemText>
-                            <ToggleSwitch id={place.id} name={place.name} />
-                        </ListItemText>
-                    </ListItem>
-                ))}
-            </div>
-            )
-        }
+  render(): JSX.Element {
+    return (
+      <>
+        {this.props.nearbyTPSellers.map((place, index) => (
+          <ListItem key={index}>
+            <ListItemText>
+              <a
+                href={`//www.google.com/maps/search/?api=1&query=${place.geometry.location.lat},${place.geometry.location.lng}`}
+                target="_blank"
+                rel="noreferrer noopener"
+              >
+                {place.name}
+                <br />
+                {place.vicinity}
+              </a>
+              <p>
+                {Distance(
+                  this.props.lat,
+                  this.props.long,
+                  place.geometry.location.lat,
+                  place.geometry.location.lng,
+                  "M"
+                )} away
+              </p>
+            </ListItemText>
+            <ListItemText>
+              <ToggleSwitch id={place.id} name={place.name} />
+            </ListItemText>
+          </ListItem>
+        ))}
+      </>
+    );
+  }
 }
 
 export default PlacesMapper;

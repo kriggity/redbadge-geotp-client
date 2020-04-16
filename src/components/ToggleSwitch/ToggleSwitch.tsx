@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import * as React from "react";
 // import React, { Component, button } from "react";
 import Switch from "react-switch";
 import './ToggleSwitch.css'
@@ -46,7 +46,7 @@ class ToggleSwitch extends React.Component<ToggleProps, ToggleState> {
       return res.json(); 
   })
   .then((logData) => {
-    console.log("the fetch returned", logData);
+    // console.log("the fetch returned", logData);
     if (logData === null) { 
       this.setState({ placeInDB: false}) 
     } else {
@@ -65,9 +65,9 @@ class ToggleSwitch extends React.Component<ToggleProps, ToggleState> {
   // const handleSubmit = (e) => {
 
   createStatus(e:any) {
-      console.log("************* you're in createStatus ***************")
-      console.log("googleid : ", this.state.id)
-      console.log("name: ", this.state.name)
+      // console.log("************* you're in createStatus ***************")
+      // console.log("googleid : ", this.state.id)
+      // console.log("name: ", this.state.name)
       e.preventDefault();
       fetch('http://localhost:3001/api/locations/add', {
       // fetch(`${APIURL}/api/jar/`, {   // calls localhost or heroku server based on APIURL which is set in helpers/environment.js
@@ -85,7 +85,7 @@ class ToggleSwitch extends React.Component<ToggleProps, ToggleState> {
           'Content-Type': 'application/json',
           // 'Authorization': props.token
       })
-  }   ) .then((res) => {
+  }   ).then((res) => {
       console.log("****** POST was successful ******")
       return res.json()
   })
@@ -96,13 +96,13 @@ class ToggleSwitch extends React.Component<ToggleProps, ToggleState> {
 
 
   handleChange(checked: any) {
-    console.log("in handleChange, id = ", this.state.id)
+    // console.log("in handleChange, id = ", this.state.id)
     this.setState({ checked });
   }
  
   render() {
-    console.log("props : ", this.props)
-  console.log("ID : ", this.props.id)
+    // console.log("props : ", this.props)
+  // console.log("ID : ", this.props.id)
       let buttonSwitch: any;
     this.state.placeInDB ? 
     buttonSwitch = <Switch onChange={this.handleChange} checked={this.state.checked} /> :
@@ -113,8 +113,8 @@ class ToggleSwitch extends React.Component<ToggleProps, ToggleState> {
       <div>
 
         <label>
-          {console.log("placeInDB is : ", this.state.placeInDB)}
-          {console.log("button : ", buttonSwitch)}
+          {/* {console.log("placeInDB is : ", this.state.placeInDB)} */}
+          {/* {console.log("button : ", buttonSwitch)} */}
           {buttonSwitch}
         </label>
         <br/>
